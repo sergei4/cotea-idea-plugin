@@ -44,7 +44,7 @@ tea\
 
 ### Как установить плагин
 
-###### Вариант 1. Установка вручную
+#### Вариант 1. Установка вручную
 1. Выполнить gradle команду `./grdalew buildPlugin`. После сборки артефакт плагина будет помещен в папку `build\distributions`
 
 2. Перейти в раздел Preferences -> Plugins IDE
@@ -54,7 +54,7 @@ tea\
 
 ![](docs/img_install_from_disk.png)
 
-###### Вариант 2. Установка из удаленного репозитория
+#### Вариант 2. Установка из удаленного репозитория
 1. Перейти в раздел Preferences -> Plugins IDE
 ![img_preferences_plugins](docs/img_preferences_plugins.png)
 

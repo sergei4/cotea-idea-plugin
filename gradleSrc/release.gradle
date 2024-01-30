@@ -1,0 +1,51 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+tasks.register("preparePluginUpdate") {
+    group = "release"
+    doLast {
+
+        def properties = loadProperties("local.properties")
+        def sourceFile = new File(project.projectDir, "templates/updatePlugins.xml")
+        def resultFile = new File(project.buildDir, "distributions")
+
+        copy {
+            from(sourceFile) {
+                def baseUrl = properties.getProperty('PLUGIN_BASE_URL')
+                def pluginUrl = "${baseUrl}${project.name}-${project.version}.zip".toString()
+                filter(ReplaceTokens, tokens: [version: project.version, pluginUrl: pluginUrl])
+            }
+            into resultFile
+        }
+    }
+}
+
+tasks.register("releasePlugin") {
+    group = "release"
+    dependsOn("buildPlugin", "preparePluginUpdate")
+    doLast {
+
+        def properties = loadProperties("local.properties")
+        def pluginZip = new File(project.buildDir, "distributions/${project.name}-${project.version}.zip")
+        def pluginUpdate = new File(project.buildDir, "distributions/updatePlugins.xml")
+        def remoteDir = properties.getProperty('UPLOAD_DIR')
+
+        ssh.run {
+
+            remotes.create("pluginStorage") {
+                host = properties.getProperty('UPLOAD_HOST')
+                user = properties.getProperty('UPLOAD_USER')
+                password = properties.getProperty('UPLOAD_PWD')
+            }
+            session(remotes.pluginStorage) {
+                put from: files(pluginZip, pluginUpdate), into: remoteDir
+            }
+        }
+    }
+}
+
+def loadProperties(String propFileName) {
+    def propFile = new File(project.projectDir, propFileName)
+    def properties = new Properties()
+    properties.load(propFile.newDataInputStream())
+    return properties
+}

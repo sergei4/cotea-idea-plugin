@@ -1,0 +1,11 @@
+package %package%
+
+import com.mw.cotea_core.transition.Transition
+import com.mw.cotea_core.transition.TransitionListener
+
+class %analyticClass%: TransitionListener<%messageClass%, %stateClass%, %sideEffectClass%, %commandClass%> {
+
+    override fun onTransition(transition: Transition<%messageClass%, %stateClass%, %sideEffectClass%, %commandClass%>) {
+        // TODO
+    }
+}

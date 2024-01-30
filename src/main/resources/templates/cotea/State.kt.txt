@@ -1,0 +1,6 @@
+package %package%
+
+data class %stateClass% (
+    val foo: Boolean = false
+    // TODO:
+)

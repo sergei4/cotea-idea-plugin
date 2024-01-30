@@ -1,0 +1,15 @@
+package %package%
+
+import com.mw.cotea_core.state_updater.StateUpdater
+import com.mw.cotea_core.state_updater.Update
+
+class %stateUpdaterClass% : StateUpdater<%messageClass%, %stateClass%, %sideEffectClass%, %commandClass%> {
+
+    override fun update(
+        state: %stateClass%,
+        message: %messageClass%
+    ): Update<%stateClass%, %sideEffectClass%, %commandClass%> = when (message) {
+        else -> TODO()
+    }
+
+}

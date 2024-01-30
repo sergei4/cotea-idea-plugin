@@ -1,0 +1,48 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>pro.mobicode.mobile.tools.cotea-idea-plugin</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>CoTea Files Generator</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="developer@mobicode.pro" url="https://mobicode.pro">Mobicode.pro</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+        This plugin allows you to create CoTea library classes/files in two clicks
+        ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.kotlin</depends>
+    <depends>org.jetbrains.android</depends>
+
+    <actions>
+        <group id="Mobicode.Mobile.Modules"
+               popup="true"
+               text="CoTea"
+               description="Create CoTea module"
+               icon="MobicodeIcons.mobileModules">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewDir"/>
+            <action id="Mobicode.CreateCoTeaScreenAction"
+                    class="pro.mobicode.mobile.ide.util.create_cotea.CreateCoTeaScreenAction"
+                    text="CoTea Screen"
+                    icon="MobicodeIcons.mobileModulesCoTeaScreen"
+                    description="Create CoTea structure files and view model">
+            </action>
+            <action id="Mobicode.CreateCoTeaStructureOnlyAction"
+                    class="pro.mobicode.mobile.ide.util.create_cotea.CreateCoTeaStructureOnlyAction"
+                    text="CoTea Classes Only"
+                    icon="MobicodeIcons.mobileModulesCoTeaStructureOnly"
+                    description="Create only CoTea classes in current package">
+            </action>
+        </group>
+
+    </actions>
+</idea-plugin>

@@ -1,0 +1,23 @@
+package %package%
+
+import com.mw.cotea_core.store.Store
+import com.mw.cotea_core.store.StoreFactory
+
+class %factoryClass%(
+    private val stateUpdater: %stateUpdaterClass%,
+    private val commandHandler: %commandHandlerClass%,
+    private val transitionListener: %analyticClass%
+) {
+
+    fun createStore(
+        initialState: () -> %stateClass%
+    ): Store<%messageClass%, %stateClass%, %sideEffectClass%, %commandClass%> {
+        return StoreFactory.createStore(
+            stateUpdater = stateUpdater,
+            commandHandler = commandHandler,
+            initialState = initialState(),
+            initialCommands = emptyList(),
+            transitionListener = transitionListener
+        )
+    }
+}

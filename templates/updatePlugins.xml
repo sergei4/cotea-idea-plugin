@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+The <plugins> element (required) contains the description of the plugins
+available at this repository.
+-->
+<plugins>
+    <!--
+    Each <plugin> element (required) describes one plugin in the repository.
+    Attributes:
+     - "id" (required) - used by JetBrains IDEs to uniquely identify
+       a plugin. Must match <id> in the plugin.xml file.
+     - "url" (required) - URL to download the plugin JAR/ZIP file.
+       Must be HTTPS.
+     - "version" (required) - version of this plugin. Must match <version>
+       in the plugin.xml file.
+    -->
+    <plugin
+            id="pro.mobicode.mobile.tools.cotea-idea-plugin"
+            url="@pluginUrl@"
+            version="@version@">
+        <name>CoTea Files Generator</name>
+        <vendor email="developer@mobicode.pro" url="https://mobicode.pro">Mobocode.pro</vendor>
+        <description><![CDATA[
+        This plugin allows you to create CoTea library classes/files in two clicks
+        ]]></description>
+        <!--
+        The <idea-version> element (required) must match the same element
+        in the plugin.xml file.
+        -->
+        <idea-version since-build="223" until-build="233.*"/>
+    </plugin>
+    <!-- And so on for other plugins... -->
+</plugins>

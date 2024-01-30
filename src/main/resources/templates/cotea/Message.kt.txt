@@ -1,0 +1,5 @@
+package %package%
+
+sealed interface %messageClass% {
+    // TODO:
+}

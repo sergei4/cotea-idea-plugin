@@ -1,0 +1,47 @@
+package %package%
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import %tea_package%.*
+import com.mw.cotea_core.store.Store
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+
+class %viewModelClass%(
+    storeFactory: %factoryClass% = %factoryClass%(
+        stateUpdater = %stateUpdaterClass%(),
+        commandHandler = %commandHandlerClass%(),
+        transitionListener = %analyticClass%()
+    )
+): ViewModel() {
+
+    private val _state = MutableStateFlow(%stateClass%())
+    val state = _state.asStateFlow()
+
+    private val _sideEffect = MutableSharedFlow<%sideEffectClass%>()
+    val sideEffect = _sideEffect.asSharedFlow()
+
+    private val uiMessage = MutableSharedFlow<%messageClass%>()
+
+    private val store: Store<%messageClass%, %stateClass%, %sideEffectClass%, %commandClass%> =
+        storeFactory.createStore(::%stateClass%)
+
+    init {
+        collectUiEvent()
+    }
+
+    private fun collectUiEvent() {
+        uiMessage.onEach(store::onMessage)
+            .launchIn(viewModelScope)
+
+        store.start(
+            viewModelScope,
+            _state::emit,
+            _sideEffect::emit
+        )
+    }
+}

@@ -1,0 +1,14 @@
+package %package%
+
+import com.mw.cotea_core.command_handler.CommandHandler
+import com.mw.cotea_core.command_handler.CommandHandlerDefault
+
+import kotlinx.coroutines.flow.Flow
+
+class %commandHandlerClass%: CommandHandlerDefault<%messageClass%, %commandClass%>() {
+
+    override suspend fun execute(command: %commandClass%): Flow<%messageClass%> = when (command) {
+        else -> TODO()
+    }
+
+}

@@ -1,9 +1,11 @@
 package %package%
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import %tea_package%.*
 import com.mw.cotea_core.store.Store
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -35,13 +37,19 @@ class %viewModelClass%(
     }
 
     private fun collectUiEvent() {
-        uiMessage.onEach(store::onMessage)
+        val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+            Log.d("CoTea", "coroutineContext = $coroutineContext : throwable = $throwable")
+        }
+
+        uiMessage
+            .onEach(store::onMessage)
             .launchIn(viewModelScope)
 
         store.start(
-            viewModelScope,
-            _state::emit,
-            _sideEffect::emit
+            coroutineScope = viewModelScope,
+            coroutineExceptionHandler = coroutineExceptionHandler,
+            actionState = _state::emit,
+            actionSideEffect = _sideEffect::emit
         )
     }
 }

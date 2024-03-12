@@ -67,17 +67,3 @@ tea\
 
 4. Найти в разделе __Marketplace__ плагин "CoTea Files Generator" и установить<br>
 ![img_marketplace_plugin](docs/img_marketplace_plugin.png)
-
-### Как выпустить новую версию плагина
-
-1. Указать свойства для загрузки плагина в файле `local.properties`
-```
-PLUGIN_BASE_URL=
-
-UPLOAD_HOST=
-UPLOAD_USER=
-UPLOAD_PWD=
-UPLOAD_DIR=
-```
-2. Обновить версию плагина в файле `gradle.properties`
-3. Запустить `./grdalew releasePlugin`

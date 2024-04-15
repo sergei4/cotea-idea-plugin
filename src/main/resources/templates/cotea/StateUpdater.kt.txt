@@ -1,7 +1,7 @@
 package %package%
 
-import com.mw.cotea_core.state_updater.StateUpdater
-import com.mw.cotea_core.state_updater.Update
+import %cotea_base_package%.state_updater.StateUpdater
+import %cotea_base_package%.state_updater.Update
 
 class %stateUpdaterClass% : StateUpdater<%messageClass%, %stateClass%, %sideEffectClass%, %commandClass%> {
 

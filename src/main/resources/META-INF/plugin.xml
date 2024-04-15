@@ -23,6 +23,15 @@
     <depends>org.jetbrains.kotlin</depends>
     <depends>org.jetbrains.android</depends>
 
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="pro.mobicode.mobile.ide.util.settings.CoTeaSettings"/>
+        <applicationConfigurable
+                parentId="tools"
+                instance="pro.mobicode.mobile.ide.util.settings.CoTeaSettingsConfigurable"
+                id="pro.mobicode.mobile.ide.util.settings.CoTeaSettingsConfigurable"
+                displayName="CoTea Settings"/>
+    </extensions>
+
     <actions>
         <group id="Mobicode.Mobile.Modules"
                popup="true"
@@ -43,6 +52,5 @@
                     description="Create only CoTea classes in current package">
             </action>
         </group>
-
     </actions>
 </idea-plugin>

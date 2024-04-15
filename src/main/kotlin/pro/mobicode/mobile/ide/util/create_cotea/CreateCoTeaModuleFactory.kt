@@ -2,11 +2,13 @@ package pro.mobicode.mobile.ide.util.create_cotea
 
 import android.databinding.tool.ext.toCamelCase
 import com.intellij.openapi.application.WriteAction
+import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFileFactory
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.gradleTooling.capitalize
+import pro.mobicode.mobile.ide.util.settings.CoTeaSettings
 
 class CreateCoTeaModuleFactory(private val project: Project) {
 
@@ -55,7 +57,7 @@ class CreateCoTeaModuleFactory(private val project: Project) {
     }
 
     private fun createCoTeaConfig(directory: PsiDirectory, classPrefix: String): CoTeaClassConfig {
-
+        val config = service<CoTeaSettings>().config
         val packageName = getPackageName(directory)
 
         val analyticClassName = "${classPrefix}Analytic"
@@ -69,6 +71,7 @@ class CreateCoTeaModuleFactory(private val project: Project) {
 
         return CoTeaClassConfig(
             directory,
+            config.coTeaLibPackage,
             packageName,
             messageClassName,
             stateClassName,
@@ -87,6 +90,7 @@ class CreateCoTeaModuleFactory(private val project: Project) {
 
     private fun createCommandInterface(config: CoTeaClassConfig) {
         val templateKt = CreateCoTeaModuleTemplates.commandKt
+            .replace(LIB_BASE_PACKAGE, config.libBasePackageName)
             .replace(PACKAGE, config.packageName)
             .replace(COMMAND_CLASS, config.commandClassName)
         val file = psiFactory.createKotlinFile(config.commandClassName, templateKt)
@@ -95,6 +99,7 @@ class CreateCoTeaModuleFactory(private val project: Project) {
 
     private fun createMessageInterface(config: CoTeaClassConfig) {
         val templateKt = CreateCoTeaModuleTemplates.messageKt
+            .replace(LIB_BASE_PACKAGE, config.libBasePackageName)
             .replace(PACKAGE, config.packageName)
             .replace(MESSAGE_CLASS, config.messageClassName)
         val file = psiFactory.createKotlinFile(config.messageClassName, templateKt)
@@ -103,6 +108,7 @@ class CreateCoTeaModuleFactory(private val project: Project) {
 
     private fun createStateClass(config: CoTeaClassConfig) {
         val templateKt = CreateCoTeaModuleTemplates.stateKt
+            .replace(LIB_BASE_PACKAGE, config.libBasePackageName)
             .replace(PACKAGE, config.packageName)
             .replace(STATE_CLASS, config.stateClassName)
         val file = psiFactory.createKotlinFile(config.stateClassName, templateKt)
@@ -111,6 +117,7 @@ class CreateCoTeaModuleFactory(private val project: Project) {
 
     private fun createSideEffectClass(config: CoTeaClassConfig) {
         val templateKt = CreateCoTeaModuleTemplates.sideEffectKt
+            .replace(LIB_BASE_PACKAGE, config.libBasePackageName)
             .replace(PACKAGE, config.packageName)
             .replace(SIDE_EFFECT_CLASS, config.sideEffectClassName)
         val file = psiFactory.createKotlinFile(config.sideEffectClassName, templateKt)
@@ -119,6 +126,7 @@ class CreateCoTeaModuleFactory(private val project: Project) {
 
     private fun createCommandHandlerClass(config: CoTeaClassConfig) {
         val templateKt = CreateCoTeaModuleTemplates.commandHandlerKt
+            .replace(LIB_BASE_PACKAGE, config.libBasePackageName)
             .replace(PACKAGE, config.packageName)
             .replace(COMMAND_HANDLER_CLASS, config.commandHandlerClassName)
             .replace(MESSAGE_CLASS, config.messageClassName)
@@ -129,6 +137,7 @@ class CreateCoTeaModuleFactory(private val project: Project) {
 
     private fun createStateUpdaterClass(config: CoTeaClassConfig) {
         val templateKt = CreateCoTeaModuleTemplates.stateUpdaterKt
+            .replace(LIB_BASE_PACKAGE, config.libBasePackageName)
             .replace(PACKAGE, config.packageName)
             .replace(STATE_UPDATER_CLASS, config.stateUpdaterClassName)
             .replace(MESSAGE_CLASS, config.messageClassName)
@@ -141,6 +150,7 @@ class CreateCoTeaModuleFactory(private val project: Project) {
 
     private fun createFactoryClass(config: CoTeaClassConfig) {
         val templateKt = CreateCoTeaModuleTemplates.factoryKt
+            .replace(LIB_BASE_PACKAGE, config.libBasePackageName)
             .replace(PACKAGE, config.packageName)
             .replace(FACTORY_CLASS, config.factoryClassName)
             .replace(MESSAGE_CLASS, config.messageClassName)
@@ -157,6 +167,7 @@ class CreateCoTeaModuleFactory(private val project: Project) {
     private fun createViewModelClass(screenDir: PsiDirectory, classPrefix: String, config: CoTeaClassConfig) {
         val viewModelClassName = "${classPrefix}ViewModel"
         val templateKt = CreateCoTeaModuleTemplates.viewModelKt
+            .replace(LIB_BASE_PACKAGE, config.libBasePackageName)
             .replace(PACKAGE, getPackageName(screenDir))
             .replace(PACKAGE_TEA, config.packageName)
             .replace(VIEW_MODEL_CLASS, viewModelClassName)
@@ -174,6 +185,7 @@ class CreateCoTeaModuleFactory(private val project: Project) {
 
     private fun createAnalyticClass(config: CoTeaClassConfig) {
         val templateKt = CreateCoTeaModuleTemplates.analyticKt
+            .replace(LIB_BASE_PACKAGE, config.libBasePackageName)
             .replace(PACKAGE, config.packageName)
             .replace(ANALYTIC_CLASS, config.analyticClassName)
             .replace(MESSAGE_CLASS, config.messageClassName)
@@ -189,6 +201,7 @@ class CreateCoTeaModuleFactory(private val project: Project) {
 
     data class CoTeaClassConfig(
         val moduleDir: PsiDirectory,
+        val libBasePackageName: String,
         val packageName: String,
         val messageClassName: String,
         val stateClassName: String,
@@ -201,6 +214,7 @@ class CreateCoTeaModuleFactory(private val project: Project) {
     )
 
     companion object {
+        const val LIB_BASE_PACKAGE = "%cotea_base_package%"
         const val PACKAGE = "%package%"
         const val PACKAGE_TEA = "%tea_package%"
         const val MESSAGE_CLASS = "%messageClass%"

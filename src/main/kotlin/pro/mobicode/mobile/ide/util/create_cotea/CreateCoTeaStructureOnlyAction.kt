@@ -7,6 +7,8 @@ import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.impl.file.PsiDirectoryFactory
 import pro.mobicode.mobile.ide.util.dialogs.CoTeaCreateClassesDialog
+import pro.mobicode.mobile.ide.util.settings.CoTeaConfig
+import pro.mobicode.mobile.ide.util.settings.CoTeaSettings
 
 class CreateCoTeaStructureOnlyAction : AnAction() {
 
@@ -20,6 +22,7 @@ class CreateCoTeaStructureOnlyAction : AnAction() {
                     targetDir = rootDir,
                     classPrefix = coTeaClassPrefix
                 )
+                CoTeaSettings.getInstance().config = CoTeaConfig("com.apple.cotea")
             }
         }
     }

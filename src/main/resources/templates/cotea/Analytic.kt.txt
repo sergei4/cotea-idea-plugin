@@ -1,7 +1,7 @@
 package %package%
 
-import com.mw.cotea_core.transition.Transition
-import com.mw.cotea_core.transition.TransitionListener
+import %cotea_base_package%.transition.Transition
+import %cotea_base_package%.transition.TransitionListener
 
 class %analyticClass%: TransitionListener<%messageClass%, %stateClass%, %sideEffectClass%, %commandClass%> {
 

@@ -1,5 +1,5 @@
 ## CoTea IDE Plugin
-Версия: 1.0
+Версия: 1.2
 
 ### Описание
 При использовании библиотеки [CoTea @MikhailZhalskiy](https://github.com/MikhailZhalskiy/CoTea) для для каждого экрана требуется создать набор классов и интерфейсов.
